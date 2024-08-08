@@ -1,0 +1,1 @@
+This repositary will demonstrate the project that i have taken for the OOPS that is titled over the idea to manage a phoneshop manager.
