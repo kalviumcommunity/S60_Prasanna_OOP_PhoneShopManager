@@ -1,50 +1,40 @@
-#include <iostream>
+#include <cmath>
+#include <cstdio>
 #include <vector>
-#include <string>
-
+#include <iostream>
+#include <stdlib.h>
+#include <algorithm>
+#include <iomanip>
 using namespace std;
 
-class PhoneDetails {
+class Phone{
 private:
-    string ModelName;
-    string Brand;
-
+    string PhoneName;
+    int IMEInumber;
+    string brand;
+    
+    
 public:
-    PhoneDetails(string m, string b) : ModelName(m), Brand(b) {}
-
-    void display() const {
-        cout << "Model name: " << ModelName << endl;
-        cout << "Brand name: " << Brand << endl;
+    void check() {
+        cout << "Welcome to this Phone Showroom!!" << endl;
     }
 };
 
-class Shop {
+class User {
 private:
-    vector<PhoneDetails> Phones;
-
+    string name;
+    int id;
 public:
-    void addPhone(const PhoneDetails& phone) {
-        Phones.push_back(phone);
-    }
-
-    void showPhones() const {
-        cout << "Phones available:\n";
-        for (const auto& phone : Phones) {
-            phone.display();
-        }
+    void buyPhone(int id) {
+        cout << "I am interested in buying phone from your shop." << id << "Phone Model" << endl;
     }
 };
 
 int main() {
-    PhoneDetails phone1("iPhone 15", "Apple");
-    PhoneDetails phone2("Samsung S24", "Samsung");
-
-    Shop shop;
-
-    shop.addPhone(phone1);
-    shop.addPhone(phone2);
-
-    shop.showPhones();
+    Phone Samsung;
+    User Prasanna;
+    
+    Samsung.check();
+    Prasanna.buyPhone(123);
     return 0;
 }
-
