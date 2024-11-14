@@ -17,8 +17,13 @@ private:
 public:
     Phone() : PhoneName(""), IMEInumber(0), brand(""), isAvailable(false) {}
 
-    Phone(string name, int num, string brand, bool status)
-        : PhoneName(name), IMEInumber(num), brand(brand), isAvailable(status) {}
+    Phone(string name, int num, string Brand, bool status){
+    PhoneName = name;  
+    IMEInumber = num;
+    brand = Brand;
+    isAvailable = status;
+}
+
 
     void uploadPhone(string name, int number, string Brand, bool status) {
         PhoneName = name;
@@ -65,16 +70,22 @@ public:
 };
 
 int main() {
-    Phone phone[3] = {
-        Phone("Galaxy s24 ultra", 101, "Samsung", false),
-        Phone("Iphone 16 pro", 209, "Apple", false),
-        Phone("Note 13 pro", 130, "Redmi", true)
-    };
-    for (int i = 0; i < 3; ++i) {
-        phone[i].displayPhones();
+    const int numPhones = 3;
+    Phone* phone[numPhones];
+    
+    phone[0] = new Phone("Galaxy S24 ultra", 123, "Samsung", false);
+    phone[1] = new Phone("Iphone 16", 143, "Apple", false);
+    phone[2] = new Phone("Note 13 pro", 230, "Redmi", true);
+
+    for (int i = 0; i < numPhones; ++i) {
+        phone[i]->displayPhones();
     }
-    for (int i = 0; i < 3; ++i) {
-        cout << "Wishing to buy " << phone[i].isPresent() << endl;
-        phone[i].orderPhone();
+    for (int i = 0; i < numPhones; ++i) {
+    cout << "Purchasing a product " << (phone[i]->isPresent() ? "available" : "unavailable") << endl;
+    phone[i]->orderPhone();
+}
+
+    for (int i = 0; i < numPhones; ++i) {
+        delete phone[i];
     }
 }
