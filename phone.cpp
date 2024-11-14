@@ -7,16 +7,16 @@
 #include <iomanip>
 using namespace std;
 
-class Phone{
+class Phone {
 private:
     string PhoneName;
     int IMEInumber;
     string brand;
-    
-    
+
 public:
     void check() {
         cout << "Welcome to this Phone Showroom!!" << endl;
+        cout << "I am using this :)" << endl;
     }
 };
 
@@ -26,15 +26,17 @@ private:
     int id;
 public:
     void buyPhone(int id) {
-        cout << "I am interested in buying phone from your shop." << id << "Phone Model" << endl;
+        cout << "I am interested in buying phone from your shop." << endl;
+        cout << "User ID: " << this->id << ", Phone Model: " << id << endl;
     }
 };
 
 int main() {
-    Phone Samsung;
-    User Prasanna;
-    
-    Samsung.check();
-    Prasanna.buyPhone(123);
+    Phone *Samsung = new Phone;
+    User *Prasanna = new User;
+    Samsung->check();
+    Prasanna->buyPhone(123);
+    delete Samsung;
+    delete Prasanna;
     return 0;
 }
