@@ -10,24 +10,32 @@ using namespace std;
 class Phone {
 private:
     string PhoneName;
-    int IMEInumber;
+    int numberOfProducts;
     string brand;
     bool isAvailable;
+    static int totalBrands;
+    static int totalnumberOfPhones;
 
 public:
-    Phone() : PhoneName(""), IMEInumber(0), brand(""), isAvailable(false) {}
+    Phone() : PhoneName(""), numberOfProducts(0), brand(""), isAvailable(false) {
+        totalBrands++;
+    }
 
-    Phone(string name, int num, string Brand, bool status){
-    PhoneName = name;  
-    IMEInumber = num;
-    brand = Brand;
-    isAvailable = status;
-}
+    Phone(string name, int num, string Brand, bool status)
+        : PhoneName(name), numberOfProducts(num), brand(Brand), isAvailable(status) {
+        totalBrands++;
+    }
 
+    ~Phone() {
+        totalBrands--;
+        if (isAvailable) {
+            totalnumberOfPhones--;
+        }
+    }
 
     void uploadPhone(string name, int number, string Brand, bool status) {
         PhoneName = name;
-        IMEInumber = number;
+        numberOfProducts = number;
         brand = Brand;
         isAvailable = status;
         cout << "Phone details are updated here:\n";
@@ -36,37 +44,43 @@ public:
 
     void displayPhones() const {
         cout << "Phone name: " << PhoneName << "\n"
-             << "IMEI Number: " << IMEInumber << "\n"
+             << "Number of products: " << numberOfProducts << "\n"
              << "Brand: " << brand << "\n"
              << "availability status: " << (isAvailable ? "Not available" : "Available") << "\n";
     }
 
     bool isPresent() const {
-        return !isAvailable && IMEInumber > 0;
+        return !isAvailable && numberOfProducts > 0;
     }
 
     bool orderPhone() {
         if (isPresent()) {
-            isAvailable = true;
-            cout << "Phone successfully purchased :- " << PhoneName << "\n";
+            cout << "Phone successfully purchased from " << PhoneName << "\n";
+            numberOfProducts -= 1;
+            totalnumberOfPhones++;
+            if (numberOfProducts == 0) {
+                isAvailable = true;
+            }
             return true;
         } else {
             cout << "The model " << PhoneName << " is not available.\n";
             return false;
         }
     }
+
+    static void displayStats() {
+        cout << "Total brands: " << totalBrands << "\n";
+        cout << "Total phones purchased: " << totalnumberOfPhones << "\n";
+    }
 };
+
+int Phone::totalBrands = 0;
+int Phone::totalnumberOfPhones = 0;
 
 class User {
 private:
-    string name;
-    int id;
-
-public:
-    void buyPhone(int id) {
-        cout << "I am interested in buying phone from your shop." << endl;
-        cout << "User ID: " << this->id << ", Phone Model: " << id << endl;
-    }
+    string userName;
+    vector<Phone*> bookedPhones; 
 };
 
 int main() {
@@ -78,14 +92,30 @@ int main() {
     phone[2] = new Phone("Note 13 pro", 230, "Redmi", true);
 
     for (int i = 0; i < numPhones; ++i) {
+        cout << "Displaying phones \n";
         phone[i]->displayPhones();
     }
+
     for (int i = 0; i < numPhones; ++i) {
-    cout << "Purchasing a product " << (phone[i]->isPresent() ? "available" : "unavailable") << endl;
-    phone[i]->orderPhone();
-}
+        cout << "Attempting to purchase phone from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; // Corrected 'Phone[i]' to 'phone[i]'
+        phone[i]->orderPhone();
+    }
+
+    for (int i = 0; i < numPhones; ++i) {
+        cout << "Displaying of brands available \n";
+        phone[i]->displayPhones(); 
+    }
+
+    for (int i = 0; i < numPhones; ++i) {
+        cout << "Attempting to purchase from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; // Corrected 'Phone[i]' to 'phone[i]'
+        phone[i]->orderPhone(); 
+    }
+
+    Phone::displayStats(); 
 
     for (int i = 0; i < numPhones; ++i) {
         delete phone[i];
     }
+    
+    return 0;
 }
