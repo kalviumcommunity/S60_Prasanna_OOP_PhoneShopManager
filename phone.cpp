@@ -72,16 +72,14 @@ public:
         cout << "Total brands: " << totalBrands << "\n";
         cout << "Total phones purchased: " << totalnumberOfPhones << "\n";
     }
+
+    static int getTotalBrands() {
+        return totalBrands;
+    }
 };
 
 int Phone::totalBrands = 0;
 int Phone::totalnumberOfPhones = 0;
-
-class User {
-private:
-    string userName;
-    vector<Phone*> bookedPhones; 
-};
 
 int main() {
     const int numPhones = 3;
@@ -97,7 +95,7 @@ int main() {
     }
 
     for (int i = 0; i < numPhones; ++i) {
-        cout << "Attempting to purchase phone from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; // Corrected 'Phone[i]' to 'phone[i]'
+        cout << "Attempting to purchase phone from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; 
         phone[i]->orderPhone();
     }
 
@@ -107,11 +105,13 @@ int main() {
     }
 
     for (int i = 0; i < numPhones; ++i) {
-        cout << "Attempting to purchase from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; // Corrected 'Phone[i]' to 'phone[i]'
+        cout << "Attempting to purchase from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; 
         phone[i]->orderPhone(); 
     }
 
     Phone::displayStats(); 
+
+    cout << "Total number of brands: " << Phone::getTotalBrands() << "\n";
 
     for (int i = 0; i < numPhones; ++i) {
         delete phone[i];
