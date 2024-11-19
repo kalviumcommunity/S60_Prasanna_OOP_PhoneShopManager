@@ -8,6 +8,7 @@
 using namespace std;
 
 class Phone {
+// i have added the private and public access which basially defines the concept of encapsulation in the project and i am committing it.
 private:
     string PhoneName;
     int numberOfProducts;
