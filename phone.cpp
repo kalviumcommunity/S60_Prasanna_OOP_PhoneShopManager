@@ -18,6 +18,7 @@ private:
     static int totalnumberOfPhones;
 
 public:
+// i have my constructor here
     Phone() : PhoneName(""), numberOfProducts(0), brand(""), isAvailable(false) {
         totalBrands++;
     }
@@ -26,7 +27,7 @@ public:
         : PhoneName(name), numberOfProducts(num), brand(Brand), isAvailable(status) {
         totalBrands++;
     }
-
+    // i have my destructor here.
     ~Phone() {
         totalBrands--;
         if (isAvailable) {
