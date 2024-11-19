@@ -77,6 +77,22 @@ public:
     static int getTotalBrands() {
         return totalBrands;
     }
+
+    string getPhoneName() const {
+        return PhoneName;
+    }
+
+    string getBrand() const {
+        return brand;
+    }
+
+    int getNumberOfProducts() const {
+        return numberOfProducts;
+    }
+
+    string getAvailabilityStatus() const {
+        return isAvailable ? "Not available" : "Available";
+    }
 };
 
 int Phone::totalBrands = 0;
@@ -91,8 +107,11 @@ int main() {
     phone[2] = new Phone("Note 13 pro", 230, "Redmi", true);
 
     for (int i = 0; i < numPhones; ++i) {
-        cout << "Displaying phones \n";
-        phone[i]->displayPhones();
+        cout << "Displaying phones using getter methods:\n";
+        cout << "Phone Name: " << phone[i]->getPhoneName() << "\n";
+        cout << "Brand: " << phone[i]->getBrand() << "\n";
+        cout << "Number of Products: " << phone[i]->getNumberOfProducts() << "\n";
+        cout << "Availability Status: " << phone[i]->getAvailabilityStatus() << "\n";
     }
 
     for (int i = 0; i < numPhones; ++i) {
