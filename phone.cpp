@@ -18,7 +18,7 @@ private:
     static int totalnumberOfPhones;
 
 public:
-// i have my constructor here
+    // i have my constructor here
     Phone() : PhoneName(""), numberOfProducts(0), brand(""), isAvailable(false) {
         totalBrands++;
     }
@@ -48,7 +48,7 @@ public:
         cout << "Phone name: " << PhoneName << "\n"
              << "Number of products: " << numberOfProducts << "\n"
              << "Brand: " << brand << "\n"
-             << "availability status: " << (isAvailable ? "Not available" : "Available") << "\n";
+             << "Availability status: " << (isAvailable ? "Not available" : "Available") << "\n";
     }
 
     bool isPresent() const {
@@ -99,13 +99,28 @@ public:
 int Phone::totalBrands = 0;
 int Phone::totalnumberOfPhones = 0;
 
+class Smartphone : public Phone {
+private:
+    string operatingSystem;
+    int storage;
+
+public:
+    Smartphone(string name, int num, string Brand, bool status, string os, int stor)
+        : Phone(name, num, Brand, status), operatingSystem(os), storage(stor) {}
+
+    void displaySmartphoneDetails() const {
+        displayPhones();
+        cout << "Operating System: " << operatingSystem << "\n"
+             << "Storage: " << storage << " GB\n";
+    }
+};
+
 int main() {
-    const int numPhones = 3;
+    const int numPhones = 2;
     Phone* phone[numPhones];
-    
+
     phone[0] = new Phone("Galaxy S24 ultra", 123, "Samsung", false);
     phone[1] = new Phone("Iphone 16", 143, "Apple", false);
-    phone[2] = new Phone("Note 13 pro", 230, "Redmi", true);
 
     for (int i = 0; i < numPhones; ++i) {
         cout << "Displaying phones using getter methods:\n";
@@ -115,28 +130,17 @@ int main() {
         cout << "Availability Status: " << phone[i]->getAvailabilityStatus() << "\n";
     }
 
-    for (int i = 0; i < numPhones; ++i) {
-        cout << "Attempting to purchase phone from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; 
-        phone[i]->orderPhone();
-    }
-
-    for (int i = 0; i < numPhones; ++i) {
-        cout << "Displaying of brands available \n";
-        phone[i]->displayPhones(); 
-    }
-
-    for (int i = 0; i < numPhones; ++i) {
-        cout << "Attempting to purchase from " << (phone[i]->isPresent() ? "available" : "unavailable") << endl; 
-        phone[i]->orderPhone(); 
-    }
-
-    Phone::displayStats(); 
-
-    cout << "Total number of brands: " << Phone::getTotalBrands() << "\n";
+    Smartphone* smartphone = new Smartphone("Pixel 9", 50, "Google", false, "Android 14", 256);
+    cout << "Displaying smartphone details:\n";
+    smartphone->displaySmartphoneDetails();
 
     for (int i = 0; i < numPhones; ++i) {
         delete phone[i];
     }
-    
+    delete smartphone;
+
+    Phone::displayStats();
+    cout << "Total number of brands: " << Phone::getTotalBrands() << "\n";
+
     return 0;
 }
