@@ -7,8 +7,14 @@
 #include <iomanip>
 using namespace std;
 
-// Base Class
-class Phone {
+
+class Device {
+public:
+    virtual void displayPhones() const = 0; 
+    virtual ~Device() {} 
+};
+
+class Phone : public Device {
 private:
     string PhoneName;
     int numberOfProducts;
@@ -34,7 +40,7 @@ public:
         }
     }
 
-    virtual void displayPhones() const { 
+    virtual void displayPhones() const override { 
         cout << "Phone name: " << PhoneName << "\n"
              << "Number of products: " << numberOfProducts << "\n"
              << "Brand: " << brand << "\n"
@@ -89,7 +95,7 @@ public:
 int Phone::totalBrands = 0;
 int Phone::totalnumberOfPhones = 0;
 
-// Derived Class
+
 class Smartphone : public Phone {
 private:
     string operatingSystem;
@@ -108,7 +114,7 @@ public:
 
 int main() {
     const int numDevices = 3;
-    Phone* devices[numDevices]; 
+    Device* devices[numDevices]; 
 
     devices[0] = new Phone("Galaxy S24 ultra", 123, "Samsung", false);
     
