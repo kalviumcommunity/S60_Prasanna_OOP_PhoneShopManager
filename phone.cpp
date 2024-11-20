@@ -7,12 +7,46 @@
 #include <iomanip>
 using namespace std;
 
-
 class Device {
 public:
     virtual void displayPhones() const = 0; 
     virtual ~Device() {} 
 };
+
+class PhoneStatistics {
+private:
+    static int totalBrands;
+    static int totalnumberOfPhones;
+
+public:
+    static void incrementBrands() {
+        totalBrands++;
+    }
+
+    static void decrementBrands() {
+        totalBrands--;
+    }
+
+    static void incrementPhonesPurchased() {
+        totalnumberOfPhones++;
+    }
+
+    static void decrementPhonesPurchased() {
+        totalnumberOfPhones--;
+    }
+
+    static void displayStats() {
+        cout << "Total brands: " << totalBrands << "\n";
+        cout << "Total phones purchased: " << totalnumberOfPhones << "\n";
+    }
+
+    static int getTotalBrands() {
+        return totalBrands;
+    }
+};
+
+int PhoneStatistics::totalBrands = 0;
+int PhoneStatistics::totalnumberOfPhones = 0;
 
 class Phone : public Device {
 private:
@@ -20,23 +54,21 @@ private:
     int numberOfProducts;
     string brand;
     bool isAvailable;
-    static int totalBrands;
-    static int totalnumberOfPhones;
 
 public:
     Phone() : PhoneName(""), numberOfProducts(0), brand(""), isAvailable(false) {
-        totalBrands++;
+        PhoneStatistics::incrementBrands();
     }
 
     Phone(string name, int num, string Brand, bool status)
         : PhoneName(name), numberOfProducts(num), brand(Brand), isAvailable(status) {
-        totalBrands++;
+        PhoneStatistics::incrementBrands();
     }
 
     virtual ~Phone() { 
-        totalBrands--;
+        PhoneStatistics::decrementBrands();
         if (isAvailable) {
-            totalnumberOfPhones--;
+            PhoneStatistics::decrementPhonesPurchased();
         }
     }
 
@@ -55,7 +87,7 @@ public:
         if (isPresent()) {
             cout << "Phone successfully purchased from " << PhoneName << "\n";
             numberOfProducts -= 1;
-            totalnumberOfPhones++;
+            PhoneStatistics::incrementPhonesPurchased();
             if (numberOfProducts == 0) {
                 isAvailable = true;
             }
@@ -64,15 +96,6 @@ public:
             cout << "The model " << PhoneName << " is not available.\n";
             return false;
         }
-    }
-
-    static void displayStats() {
-        cout << "Total brands: " << totalBrands << "\n";
-        cout << "Total phones purchased: " << totalnumberOfPhones << "\n";
-    }
-
-    static int getTotalBrands() {
-        return totalBrands;
     }
 
     string getPhoneName() const {
@@ -91,10 +114,6 @@ public:
         return isAvailable ? "Not available" : "Available";
     }
 };
-
-int Phone::totalBrands = 0;
-int Phone::totalnumberOfPhones = 0;
-
 
 class Smartphone : public Phone {
 private:
@@ -132,8 +151,8 @@ int main() {
         delete devices[i]; 
     }
 
-    Phone::displayStats();
-    cout << "Total number of brands: " << Phone::getTotalBrands() << "\n";
+    PhoneStatistics::displayStats();
+    cout << "Total number of brands: " << PhoneStatistics::getTotalBrands() << "\n";
 
     return 0;
 }
