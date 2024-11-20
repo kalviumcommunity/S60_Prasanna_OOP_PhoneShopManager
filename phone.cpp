@@ -10,6 +10,7 @@ using namespace std;
 class Device {
 public:
     virtual void displayPhones() const = 0; 
+    virtual bool isAvailableForPurchase() const = 0; 
     virtual ~Device() {} 
 };
 
@@ -79,12 +80,12 @@ public:
              << "Availability status: " << (isAvailable ? "Not available" : "Available") << "\n";
     }
 
-    bool isPresent() const {
+    virtual bool isAvailableForPurchase() const override { 
         return !isAvailable && numberOfProducts > 0;
     }
 
     bool orderPhone() {
-        if (isPresent()) {
+        if (isAvailableForPurchase()) {
             cout << "Phone successfully purchased from " << PhoneName << "\n";
             numberOfProducts -= 1;
             PhoneStatistics::incrementPhonesPurchased();
@@ -129,9 +130,12 @@ public:
         cout << "Operating System: " << operatingSystem << "\n"
              << "Storage: " << storage << " GB\n";
     }
+
+    bool isAvailableForPurchase() const override { 
+        return Phone::isAvailableForPurchase();
+    }
 };
 
-// New class added to demonstrate OCP
 class FeaturePhone : public Phone {
 private:
     bool hasKeypad;
@@ -143,6 +147,10 @@ public:
     void displayPhones() const override {
         Phone::displayPhones();
         cout << "Has Keypad: " << (hasKeypad ? "Yes" : "No") << "\n";
+    }
+
+    bool isAvailableForPurchase() const override { 
+        return Phone::isAvailableForPurchase();
     }
 };
 
@@ -158,6 +166,7 @@ int main() {
     cout << "Displaying device details using polymorphism:\n";
     for (int i = 0; i < numDevices; ++i) {
         devices[i]->displayPhones(); 
+        cout << "Available for purchase: " << (devices[i]->isAvailableForPurchase() ? "Yes" : "No") << "\n";
         cout << "\n";
     }
 
