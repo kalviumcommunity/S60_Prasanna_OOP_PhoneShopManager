@@ -131,15 +131,29 @@ public:
     }
 };
 
+// New class added to demonstrate OCP
+class FeaturePhone : public Phone {
+private:
+    bool hasKeypad;
+
+public:
+    FeaturePhone(string name, int num, string Brand, bool status, bool keypad)
+        : Phone(name, num, Brand, status), hasKeypad(keypad) {}
+
+    void displayPhones() const override {
+        Phone::displayPhones();
+        cout << "Has Keypad: " << (hasKeypad ? "Yes" : "No") << "\n";
+    }
+};
+
 int main() {
-    const int numDevices = 3;
+    const int numDevices = 4;
     Device* devices[numDevices]; 
 
     devices[0] = new Phone("Galaxy S24 ultra", 123, "Samsung", false);
-    
     devices[1] = new Phone("Iphone 16", 143, "Apple", false);
-    
     devices[2] = new Smartphone("Pixel 9", 50, "Google", false, "Android 14", 256);
+    devices[3] = new FeaturePhone("Nokia 3310", 200, "Nokia", false, true);
 
     cout << "Displaying device details using polymorphism:\n";
     for (int i = 0; i < numDevices; ++i) {
